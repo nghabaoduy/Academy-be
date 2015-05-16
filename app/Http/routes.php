@@ -22,3 +22,5 @@ Route::controllers([
 
 
 $router->resource('/word', 'WordController');
+
+$router->resource('/api/package', 'Api\PackageController');
