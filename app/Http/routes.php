@@ -24,3 +24,8 @@ Route::controllers([
 $router->resource('/word', 'WordController');
 
 $router->resource('/api/package', 'Api\PackageController');
+$router->resource('/api/user', 'Api\UserController');
+$router->resource('/api/userPackage', 'Api\UserPackageController');
+
+//Authentication
+$router->post('/api/login', 'Api\UserController@login');
