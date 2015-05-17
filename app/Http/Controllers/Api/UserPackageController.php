@@ -16,7 +16,7 @@ class UserPackageController extends Controller {
 	public function index(Request $request)
 	{
 		//
-        $userPackages = UserPackage::with( 'package.sets.words')->where('user_id', $request->get('user_id'))->get();
+        $userPackages = UserPackage::with( 'package.sets.words.meaningList')->where('user_id', $request->get('user_id'))->get();
 
         return response($userPackages);
 	}
