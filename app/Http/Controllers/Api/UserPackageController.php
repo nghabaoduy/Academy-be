@@ -56,6 +56,7 @@ class UserPackageController extends Controller {
 	public function show($id)
 	{
 		//
+
 	}
 
 	/**
