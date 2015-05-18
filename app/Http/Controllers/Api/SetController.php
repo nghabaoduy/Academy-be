@@ -4,9 +4,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\UserPackage;
+use App\Set;
 
-class UserPackageController extends Controller {
+class SetController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -16,12 +16,12 @@ class UserPackageController extends Controller {
 	public function index(Request $request)
 	{
 		//
+        $query = Set::with('words.meaningList');
 
-        $query = UserPackage::with( 'package.sets');
-
-        if ($request->has('user_id')) {
-            $query = $query->where('user_id', $request->get('user_id'));
+        if ($request->has('set_id')) {
+            $query = $query->where('id', $request->get('set_id'));
         }
+
         $query = $query->get();
 
         return response($query);
