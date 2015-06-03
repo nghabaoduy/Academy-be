@@ -27,6 +27,7 @@ $router->resource('/api/package', 'Api\PackageController');
 $router->resource('/api/user', 'Api\UserController');
 $router->resource('/api/userPackage', 'Api\UserPackageController');
 $router->resource('/api/set', 'Api\SetController');
+$router->resource('/api/set.score', 'Api\SetScoreController');
 $router->post('api/purchasePackage', 'Api\UserPackageController@purchasePackage');
 $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 
