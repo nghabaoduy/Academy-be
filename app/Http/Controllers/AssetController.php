@@ -5,12 +5,10 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Contracts\Filesystem\Cloud;
 use Illuminate\Http\Request;
-use App\Word;
-use App\Meaning;
 use App\Asset;
 use Illuminate\Support\Facades\File;
 
-class WordController extends Controller {
+class AssetController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -30,7 +28,7 @@ class WordController extends Controller {
 	public function create()
 	{
 		//
-        return view('WordCreate');
+        return view('AssetCreate');
 	}
 
 	/**
@@ -41,7 +39,6 @@ class WordController extends Controller {
 	public function store(Request $request, Cloud $cloud)
 	{
 		//
-
         if (!$request->hasFile('image')) {
             dd('error file not found');
         }
@@ -61,23 +58,8 @@ class WordController extends Controller {
         $asset->type = $file->getClientOriginalExtension();
         $asset->save();
 
-
-        $wordData = [
-            'name' => $request->get('name'),
-            'phonentic' => $request->get('phonentic'),
-            'word_type' => $request->get('word_type'),
-            'asset_id' => $asset->id
-        ];
-
-        $newWord = Word::create($wordData);
-
-        $meaningData = $request->get('meaning')[0];
-        $meaningData['word_id'] = $newWord->id;
-        $newMeaning = Meaning::create($meaningData);
-
-        return redirect()->back();
+        return 'id = '.$asset->id;
 	}
-
 
     function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

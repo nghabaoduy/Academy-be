@@ -11,4 +11,12 @@ class Set extends Model {
     public function words() {
         return $this->belongsToMany('App\Word', 'set_word', 'set_id', 'word_id');
     }
+
+    public function scores() {
+
+    }
+
+    public function asset() {
+        return $this->belongsTo('App\Asset', 'asset_id');
+    }
 }

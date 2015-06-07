@@ -8,7 +8,7 @@
                     <div class="panel-heading">Create New Word</div>
 
                     <div class="panel-body">
-                        <form method="POST" role="form" class="form-horizontal" action="/word">
+                        <form method="POST" role="form" class="form-horizontal" action="/word" enctype="multipart/form-data">
                             <div class="form-group">
                                 <div class="col-xs-2">
                                     <label>Name :</label>
@@ -17,6 +17,35 @@
                                     <input type="text" class="form-control" name="name" required="">
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-2">
+                                    <label>phonentic :</label>
+                                </div>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control" name="phonentic" required="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-2">
+                                    <label>Type :</label>
+                                </div>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control" name="word_type" required="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-2">
+                                    <label>Image :</label>
+                                </div>
+                                <div class="col-xs-10">
+                                    <input type="file" class="form-control" name="image" required="">
+                                </div>
+                            </div>
+
+
                             <hr>
 
                             <div>

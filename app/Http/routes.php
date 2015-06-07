@@ -22,6 +22,8 @@ Route::controllers([
 
 
 $router->resource('/word', 'WordController');
+$router->resource('/asset', 'AssetController');
+
 
 $router->resource('/api/package', 'Api\PackageController');
 $router->resource('/api/user', 'Api\UserController');

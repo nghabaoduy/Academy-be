@@ -15,7 +15,7 @@ class PackageController extends Controller {
 	 */
 	public function index()
 	{
-        $data = Package::with('sets.words')->get();
+        $data = Package::with('sets.words', 'asset', 'sets.asset')->get();
         return response($data);
 	}
 

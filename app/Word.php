@@ -6,7 +6,7 @@ class Word extends Model {
 
 	//
     protected $table = 'word';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'phonentic', 'word_type', 'asset_id'];
     public $timestamps = false;
 
     public function meaningList() {

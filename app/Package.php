@@ -11,4 +11,8 @@ class Package extends Model {
     public function sets() {
         return $this->hasMany('App\Set');
     }
+
+    public function asset() {
+        return $this->belongsTo('App\Asset', 'asset_id');
+    }
 }
