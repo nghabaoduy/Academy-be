@@ -16,7 +16,7 @@ class SetController extends Controller {
 	public function index(Request $request)
 	{
 		//
-        $query = Set::with('words.meaningList');
+        $query = Set::with('words.meaningList', 'asset');
 
         if ($request->has('set_id')) {
             $query = $query->where('id', $request->get('set_id'));
