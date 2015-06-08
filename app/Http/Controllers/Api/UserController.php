@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ApiRegisterRequest;
 
 class UserController extends Controller {
 
@@ -102,5 +103,15 @@ class UserController extends Controller {
             return response(json_encode($data));
         }
         return response(json_encode(['message' => 'Invalid credentials']), 400);
+    }
+
+    public function register(ApiRegisterRequest $request) {
+        $newUser = new User();
+        $newUser->username = $request->get('username');
+        $newUser->password = bcrypt($request->get('password'));
+        $newUser->profile_name = $request->get('profile_name');
+        $newUser->email = $request->get('username');
+        $newUser->save();
+        return response($newUser, 200);
     }
 }

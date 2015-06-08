@@ -35,3 +35,4 @@ $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 
 //Authentication
 $router->post('/api/login', 'Api\UserController@login');
+$router->post('/api/register', 'Api\UserController@register');
