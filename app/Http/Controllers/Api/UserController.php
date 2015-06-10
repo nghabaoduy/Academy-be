@@ -8,6 +8,10 @@ use App\User;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ApiRegisterRequest;
+use App\Http\Requests\ApiChangePasswordRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ApiForgotPasswordRequest;
 
 class UserController extends Controller {
 
@@ -113,5 +117,47 @@ class UserController extends Controller {
         $newUser->email = $request->get('username');
         $newUser->save();
         return response($newUser, 200);
+    }
+
+    public function changePassword(ApiChangePasswordRequest $request) {
+        $newUser = User::where('username', $request->get('username'))->first();
+        if ($newUser){
+            return response(json_encode(['message' => 'User not found']), 404);
+        }
+        if (!Hash::check($request->get('current_password'), $newUser->password)){
+            return response(json_encode(['message' => 'Invalid current password']), 400);
+        }
+        $newUser->password = bcrypt($request->get('password'));
+        $newUser->save();
+        return response($newUser, 200);
+    }
+
+    public function forgotPassword(ApiForgotPasswordRequest $request) {
+        $user = User::where('username', $request->get('username'))->first();
+        if (!$user) {
+            //error
+            return response(json_encode(['message' => 'user not found']), 404);
+        }
+
+        $newPassword = $this->generateRandomString(6);
+
+        $user->password = bcrypt($newPassword);
+        $user->update();
+
+        Mail::send('emails.forgotPassword', ['password' => $newPassword, 'phone' => $user->username], function($message) use ($user)
+        {
+            $message->to($user->email)->subject('Forgot Password!');
+        });
+        return response(json_encode(['message' => 'Sent email to '.$user->email]));
+    }
+
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

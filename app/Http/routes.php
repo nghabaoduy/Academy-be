@@ -16,8 +16,8 @@ Route::get('/', 'WelcomeController@index');
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
 ]);
 
 
@@ -36,3 +36,5 @@ $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 //Authentication
 $router->post('/api/login', 'Api\UserController@login');
 $router->post('/api/register', 'Api\UserController@register');
+$router->post('/api/changePassword', 'Api\UserController@changePassword');
+$router->post('/api/forgotPassword', 'Api\UserController@forgotPassword');
