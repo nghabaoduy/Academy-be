@@ -14,7 +14,8 @@ class WordLearnedController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		$query = WordLearned::where('user_id', $request->get('user_id'))->get();
+        return response($query);
 	}
 
 	/**

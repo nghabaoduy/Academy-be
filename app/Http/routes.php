@@ -28,9 +28,9 @@ $router->resource('/asset', 'AssetController');
 $router->resource('/api/package', 'Api\PackageController');
 $router->resource('/api/user', 'Api\UserController');
 $router->resource('/api/userPackage', 'Api\UserPackageController');
-$router->resource('/api/user.word', 'Api\WordLearnedController');
 $router->resource('/api/set', 'Api\SetController');
 $router->resource('/api/set.score', 'Api\SetScoreController');
+$router->resource('/api/wordLeanred', 'Api\WordLearnedController');
 $router->post('api/purchasePackage', 'Api\UserPackageController@purchasePackage');
 $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 //Authentication
