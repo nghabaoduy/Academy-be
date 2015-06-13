@@ -189,4 +189,32 @@ class UserPackageController extends Controller {
         return $randomString;
     }
 
+    function setPackageScore(Request $request) {
+
+        $user_id = $request->get('user_id');
+        $package_id = $request->get('package_id');
+        $score = $request->get('score');
+        //Checking credit
+
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return response(json_encode(['message' => 'User not found']), 404);
+        }
+
+        $package = UserPackage::where('user_id', $user_id)->where('package_id', $package_id)->first();
+
+        if (!$package) {
+            return response(json_encode(['message' => 'UserPackage not found']), 404);
+        }
+
+        if (!$package->score  >= intval($score)) {
+            return response(json_encode(['message' => 'Old score is high or equal']), 404);
+        } else {
+            $package->score = $score;
+            $package->save();
+        }
+        return json_encode($package);
+    }
+
 }

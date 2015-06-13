@@ -115,13 +115,15 @@ class UserController extends Controller {
         $newUser->password = bcrypt($request->get('password'));
         $newUser->profile_name = $request->get('profile_name');
         $newUser->email = $request->get('username');
+        $newUser->facebook_id = $request->get('facebook_id');
+        $newUser->ggp_id = $request->get('ggp_id');
         $newUser->save();
         return response($newUser, 200);
     }
 
     public function changePassword(ApiChangePasswordRequest $request) {
         $newUser = User::where('username', $request->get('username'))->first();
-        if ($newUser){
+        if (!$newUser){
             return response(json_encode(['message' => 'User not found']), 404);
         }
         if (!Hash::check($request->get('current_password'), $newUser->password)){
@@ -159,5 +161,17 @@ class UserController extends Controller {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+    function changeProfileName(Request $request)
+    {
+        $user = User::where('username', $request->get('username'))->first();
+        if (!$user) {
+            //error
+            return response(json_encode(['message' => 'user not found']), 404);
+        }
+        $user->profile_name = $request->get('profile_name');
+        $user->save();
+
+        return response($user, 200);
     }
 }
