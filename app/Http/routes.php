@@ -34,7 +34,7 @@ $router->resource('/api/wordLearned', 'Api\WordLearnedController');
 $router->post('api/purchasePackage', 'Api\UserPackageController@purchasePackage');
 $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 $router->post('/api/changeProfileName', 'Api\UserController@changeProfileName');
-$router->post('/api/uploadAvatar', 'Api\UserController@uploadAvatar');
+$router->post('/api/uploadAvatar', 'Api\UserController@uploadUserAvatar');
 $router->post('/api/changeScore', 'Api\UserPackageController@setPackageScore');
 $router->post('/api/uploadWordLearnedList', 'Api\WordLearnedController@uploadWordLearnedList');
 //Authentication

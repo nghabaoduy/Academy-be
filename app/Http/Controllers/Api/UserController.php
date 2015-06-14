@@ -193,7 +193,7 @@ class UserController extends Controller {
 
         return response($user, 200);
     }
-    function uploadAvatar(Request $request, Cloud $cloud)
+    function uploadUserAvatar(Request $request, Cloud $cloud)
     {
         $user = User::where('username', $request->get('username'))->first();
         if (!$user) {
