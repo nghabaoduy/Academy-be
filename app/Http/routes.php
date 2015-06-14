@@ -34,10 +34,13 @@ $router->resource('/api/wordLearned', 'Api\WordLearnedController');
 $router->post('api/purchasePackage', 'Api\UserPackageController@purchasePackage');
 $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 $router->post('/api/changeProfileName', 'Api\UserController@changeProfileName');
+$router->post('/api/uploadAvatar', 'Api\UserController@uploadAvatar');
 $router->post('/api/changeScore', 'Api\UserPackageController@setPackageScore');
 $router->post('/api/uploadWordLearnedList', 'Api\WordLearnedController@uploadWordLearnedList');
 //Authentication
 $router->post('/api/login', 'Api\UserController@login');
+$router->post('/api/loginWithFBId', 'Api\UserController@loginWithFBId');
+$router->post('/api/loginWithGGPId', 'Api\UserController@loginWithGGPId');
 $router->post('/api/register', 'Api\UserController@register');
 $router->post('/api/changePassword', 'Api\UserController@changePassword');
 $router->post('/api/forgotPassword', 'Api\UserController@forgotPassword');

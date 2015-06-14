@@ -38,16 +38,27 @@ class SetScoreController extends Controller {
 	 */
 	public function store($set_id,Request $request)
 	{
-		//
+
         $set = Set::where('id', $set_id)->first();
+        $score = $request->get('score');
 
         if (!$set) {
             dd('err');
         }
 
         $request->merge(['set_id' => $set_id]);
-        $setScore = SetScore::create($request->all());
-
+        $setScore = SetScore::where('set_id', $set_id)->first();
+        if(!$setScore)
+        {
+            $setScore = SetScore::create($request->all());
+        }
+        else{
+            if(intval($setScore->score) < intval($score))
+            {
+                $setScore->score = $score;
+                $setScore->save();
+            }
+        }
         return response($setScore);
 	}
 

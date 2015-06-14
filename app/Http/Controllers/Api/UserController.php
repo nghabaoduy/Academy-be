@@ -108,6 +108,25 @@ class UserController extends Controller {
         }
         return response(json_encode(['message' => 'Invalid credentials']), 400);
     }
+    public function loginWithFBId(Request $request) {
+        $user = User::where('username', $request->get('username'))->where('facebook_id', $request->get('facebook_id'))->first();
+        if(!$user)
+        {
+            return response(json_encode(['message' => 'Invalid credentials']), 400);
+        }else {
+            return response($user);
+        }
+    }
+    public function loginWithGGPId(Request $request) {
+        $user = User::where('username', $request->get('username'))->where('ggp_id', $request->get('ggp_id'))->first();
+        if(!$user)
+        {
+            return response(json_encode(['message' => 'Invalid credentials']), 400);
+        }else {
+            return response($user);
+        }
+    }
+
 
     public function register(ApiRegisterRequest $request) {
         $newUser = new User();
@@ -174,4 +193,39 @@ class UserController extends Controller {
 
         return response($user, 200);
     }
+    function uploadAvatar(Request $request, Cloud $cloud)
+    {
+        $user = User::where('username', $request->get('username'))->first();
+        if (!$user) {
+            //error
+            return response(json_encode(['message' => 'user not found']), 404);
+        }
+
+        //get image
+        if (!$request->hasFile('image')) {
+            dd('error file not found');
+        }
+
+        $file = $request->file('image');
+
+        if (strtolower($file->getClientOriginalExtension()) != 'jpg' && strtolower($file->getClientOriginalExtension()) != 'png') {
+            dd('error file extension');
+        }
+
+        $fileName = $this->generateRandomString(100).'.'.$file->getClientOriginalExtension();
+
+        $cloud->put(env('S3_FOLDER').'/'.$fileName, File::get($file));
+
+        $asset = new Asset();
+        $asset->index = env('S3_URL').env('S3_FOLDER').'/'.$fileName;
+        $asset->type = $file->getClientOriginalExtension();
+        $asset->save();
+
+        $user->asset_id = $asset->id;
+
+        $user->save();
+
+        return response($user, 200);
+    }
+
 }

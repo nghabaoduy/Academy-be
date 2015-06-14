@@ -56,7 +56,7 @@ class SetController extends Controller {
 	public function show($id)
 	{
 		//
-        $set = Set::with('words.meaningList')->where('id', $id)->first();
+        $set = Set::with('words.meaningList', 'asset')->where('id', $id)->first();
 
         return response($set);
 	}

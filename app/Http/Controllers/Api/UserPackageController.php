@@ -208,7 +208,7 @@ class UserPackageController extends Controller {
             return response(json_encode(['message' => 'UserPackage not found']), 404);
         }
 
-        if (!$package->score  >= intval($score)) {
+        if (intval(!$package->score)  >= intval($score)) {
             return response(json_encode(['message' => 'Old score is high or equal']), 404);
         } else {
             $package->score = $score;
