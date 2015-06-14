@@ -12,6 +12,9 @@ use App\Http\Requests\ApiChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ApiForgotPasswordRequest;
+use Illuminate\Contracts\Filesystem\Cloud;
+use App\Asset;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller {
 
