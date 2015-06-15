@@ -31,4 +31,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+    public function asset() {
+        return $this->belongsTo('App\Asset', 'asset_id');
+    }
+
+
 }

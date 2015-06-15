@@ -35,8 +35,11 @@ $router->post('api/purchasePackage', 'Api\UserPackageController@purchasePackage'
 $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 $router->post('/api/changeProfileName', 'Api\UserController@changeProfileName');
 $router->post('/api/uploadAvatar', 'Api\UserController@uploadUserAvatar');
+$router->post('/api/getUser', 'Api\UserController@getUserWithUsername');
 $router->post('/api/changeScore', 'Api\UserPackageController@setPackageScore');
 $router->post('/api/uploadWordLearnedList', 'Api\WordLearnedController@uploadWordLearnedList');
+
+
 //Authentication
 $router->post('/api/login', 'Api\UserController@login');
 $router->post('/api/loginWithFBId', 'Api\UserController@loginWithFBId');

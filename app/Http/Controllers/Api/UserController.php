@@ -104,6 +104,7 @@ class UserController extends Controller {
 
 
     public function login(LoginRequest $request) {
+
         if (Auth::attempt(['username' => $request->get('username'), 'password' => $request->get('password')])) {
             $data = Auth::user();
             $data['auth'] = env('APP_KEY');
@@ -112,7 +113,7 @@ class UserController extends Controller {
         return response(json_encode(['message' => 'Invalid credentials']), 400);
     }
     public function loginWithFBId(Request $request) {
-        $user = User::where('username', $request->get('username'))->where('facebook_id', $request->get('facebook_id'))->first();
+        $user = User::with('asset')->where('username', $request->get('username'))->where('facebook_id', $request->get('facebook_id'))->first();
         if(!$user)
         {
             return response(json_encode(['message' => 'Invalid credentials']), 400);
@@ -121,7 +122,7 @@ class UserController extends Controller {
         }
     }
     public function loginWithGGPId(Request $request) {
-        $user = User::where('username', $request->get('username'))->where('ggp_id', $request->get('ggp_id'))->first();
+        $user = User::with('asset')->where('username', $request->get('username'))->where('ggp_id', $request->get('ggp_id'))->first();
         if(!$user)
         {
             return response(json_encode(['message' => 'Invalid credentials']), 400);
@@ -144,7 +145,7 @@ class UserController extends Controller {
     }
 
     public function changePassword(ApiChangePasswordRequest $request) {
-        $newUser = User::where('username', $request->get('username'))->first();
+        $newUser = User::with('asset')->where('username', $request->get('username'))->first();
         if (!$newUser){
             return response(json_encode(['message' => 'User not found']), 404);
         }
@@ -186,7 +187,7 @@ class UserController extends Controller {
     }
     function changeProfileName(Request $request)
     {
-        $user = User::where('username', $request->get('username'))->first();
+        $user = User::with('asset')->where('username', $request->get('username'))->first();
         if (!$user) {
             //error
             return response(json_encode(['message' => 'user not found']), 404);
@@ -227,8 +228,20 @@ class UserController extends Controller {
         $user->asset_id = $asset->id;
 
         $user->save();
-
+        $user = User::with('asset')->where('username', $request->get('username'))->first();
+        if (!$user) {
+            //error
+            return response(json_encode(['message' => 'user not found']), 404);
+        }
         return response($user, 200);
     }
-
+    function getUserWithUsername(Request $request)
+    {
+        $user = User::with('asset')->where('username', $request->get('username'))->first();
+        if (!$user) {
+            //error
+            return response(json_encode(['message' => 'user not found']), 404);
+        }
+        return response($user, 200);
+    }
 }
