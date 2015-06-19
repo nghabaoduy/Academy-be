@@ -20,10 +20,10 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+$router->resource('/api/sharedData', 'Api\SharedDataController');
 
 $router->resource('/word', 'WordController');
 $router->resource('/asset', 'AssetController');
-
 
 $router->resource('/api/package', 'Api\PackageController');
 $router->resource('/api/user', 'Api\UserController');
