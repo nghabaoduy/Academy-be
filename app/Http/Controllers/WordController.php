@@ -137,20 +137,18 @@ class WordController extends Controller {
     public function checkForDuplication(Request $request)
     {
         $wordListStr = $request->get('wordList');
-        $wordListStr= preg_replace('/\s+/', '', $wordListStr);
+        $wordListStr = str_replace(', ', ',', $wordListStr);
+        $wordListStr = str_replace(' ,', ',', $wordListStr);
+        $wordListStr = str_replace('  ', ' ', $wordListStr);
         $wordListStr = strtolower($wordListStr);
         $wordArray = explode(',', $wordListStr);
         $duplicatedArray = array();
+        $duplicatedArray = array();
         foreach ($wordArray as $wordName) {
             $word = Word::where('name', $wordName)->first();
-            if($word){
-                array_push($duplicatedArray, $word->name);
-            }
-        }
-        foreach ($wordArray as $wordName) {
             $wordRegister = WordRegister::where('name', $wordName)->first();
-            if($wordRegister){
-                array_push($duplicatedArray, $wordRegister->name);
+            if($word || $wordRegister){
+                array_push($duplicatedArray, $wordName);
             }
         }
         $returnStr = "";
@@ -160,12 +158,15 @@ class WordController extends Controller {
             else
                 $returnStr = $returnStr.', '.$wordStr;
         }
+        $returnStr = "Duplicated words(".count($duplicatedArray)."): \n".$returnStr;
         return $returnStr;
     }
     public function registerWords(Request $request)
     {
         $wordListStr = $request->get('wordList');
-        $wordListStr= preg_replace('/\s+/', '', $wordListStr);
+        $wordListStr = str_replace(', ', ',', $wordListStr);
+        $wordListStr = str_replace(' ,', ',', $wordListStr);
+        $wordListStr = str_replace('  ', ' ', $wordListStr);
         $wordListStr = strtolower($wordListStr);
         $wordArray = explode(',', $wordListStr);
 
@@ -175,7 +176,7 @@ class WordController extends Controller {
             $word = Word::where('name', $wordName)->first();
             $wordRegister = WordRegister::where('name', $wordName)->first();
             if($word || $wordRegister){
-                array_push($duplicatedArray, $word->name);
+                array_push($duplicatedArray, $wordName);
             }
             else{
                 $newWordRegister = WordRegister::create(['name' => $wordName, 'freelancer_name'=> $freelancerName]);
@@ -188,6 +189,7 @@ class WordController extends Controller {
             else
                 $returnStr = $returnStr.', '.$wordStr;
         }
+        $returnStr = "Duplicated words(".count($duplicatedArray)."): \n".$returnStr;
         return $returnStr;
 
     }
