@@ -7,6 +7,7 @@ use Illuminate\Contracts\Filesystem\Cloud;
 use Illuminate\Http\Request;
 use App\Word;
 use App\Meaning;
+use App\WordRegister;
 use App\Asset;
 use Illuminate\Support\Facades\File;
 
@@ -132,5 +133,63 @@ class WordController extends Controller {
 	{
 		//
 	}
+
+    public function checkForDuplication(Request $request)
+    {
+        $wordListStr = $request->get('wordList');
+        $wordListStr= preg_replace('/\s+/', '', $wordListStr);
+        $wordListStr = strtolower($wordListStr);
+        $wordArray = explode(',', $wordListStr);
+        $duplicatedArray = array();
+        foreach ($wordArray as $wordName) {
+            $word = Word::where('name', $wordName)->first();
+            if($word){
+                array_push($duplicatedArray, $word->name);
+            }
+        }
+        foreach ($wordArray as $wordName) {
+            $wordRegister = WordRegister::where('name', $wordName)->first();
+            if($wordRegister){
+                array_push($duplicatedArray, $wordRegister->name);
+            }
+        }
+        $returnStr = "";
+        foreach ($duplicatedArray as $wordStr) {
+           if($returnStr == "")
+               $returnStr = $wordStr;
+            else
+                $returnStr = $returnStr.', '.$wordStr;
+        }
+        return $returnStr;
+    }
+    public function registerWords(Request $request)
+    {
+        $wordListStr = $request->get('wordList');
+        $wordListStr= preg_replace('/\s+/', '', $wordListStr);
+        $wordListStr = strtolower($wordListStr);
+        $wordArray = explode(',', $wordListStr);
+
+        $freelancerName = $request->get('freelancerName');
+        $duplicatedArray = array();
+        foreach ($wordArray as $wordName) {
+            $word = Word::where('name', $wordName)->first();
+            $wordRegister = WordRegister::where('name', $wordName)->first();
+            if($word || $wordRegister){
+                array_push($duplicatedArray, $word->name);
+            }
+            else{
+                $newWordRegister = WordRegister::create(['name' => $wordName, 'freelancer_name'=> $freelancerName]);
+            }
+        }
+        $returnStr = "";
+        foreach ($duplicatedArray as $wordStr) {
+            if($returnStr == "")
+                $returnStr = $wordStr;
+            else
+                $returnStr = $returnStr.', '.$wordStr;
+        }
+        return $returnStr;
+
+    }
 
 }

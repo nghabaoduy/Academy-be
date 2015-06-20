@@ -22,8 +22,10 @@ Route::controllers([
 
 $router->resource('/api/sharedData', 'Api\SharedDataController');
 
-$router->resource('/word', 'WordController');
+$router->resource('/word', 'WordController@create');
 $router->resource('/asset', 'AssetController');
+$router->get('/wordDuplicationCheck', 'WordController@checkForDuplication');
+$router->post('/registerWord', 'WordController@registerWords');
 
 $router->resource('/api/package', 'Api\PackageController');
 $router->resource('/api/user', 'Api\UserController');
