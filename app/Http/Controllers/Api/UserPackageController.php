@@ -121,12 +121,21 @@ class UserPackageController extends Controller {
 
 
         if (!$package) {
-            $date = date('Y-m-d H:i:s');
+            $expiryDate = date('Y-m-d H:i:s');
+
+            $packageExpiration = $package->expiry_time;
+            if($packageExpiration == 'FOREVER'){
+                $expiryDate = date('Y-m-d H:i:s',strtotime('-1 day', $expiryDate));
+            }
+            else{
+                $expiryDate = date('Y-m-d H:i:s',strtotime($packageExpiration, $expiryDate));
+            }
+
 
             $package = UserPackage::create(['user_id' => $user_id,
                 'package_id' => $package_id,
                 'purchase_type' => 'buy',
-                'expired_at' => $date
+                'expired_at' => $expiryDate
             ]);
         } else {
             if ($package->purchase_type == 'buy') {
