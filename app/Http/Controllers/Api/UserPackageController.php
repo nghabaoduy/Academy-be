@@ -125,7 +125,7 @@ class UserPackageController extends Controller {
 
             $packExpiration = $pack->expiry_time;
             if($packExpiration == 'FOREVER'){
-                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . ' + 1 day'));
+                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . ' - 1 day'));
             }
             else{
                 $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . $packExpiration));
@@ -162,7 +162,67 @@ class UserPackageController extends Controller {
         OrderHistory::create($data);
         return json_encode($user);
     }
+    public function renewPurchase(Request $request) {
+        $user_package_id = $request->get('user_package_id');
+        $package = UserPackage::find($user_package_id);
+        if (!$package) {
+            return response(json_encode(['message' => 'UserPackage not found']), 404);
+        }
 
+        $user_id = $package->user_id;
+        $package_id = $package->package_id;
+
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return response(json_encode(['message' => 'User not found']), 404);
+        }
+
+        $pack = Package::find($package_id);
+
+        if (!$pack) {
+            return response(json_encode(['message' => 'Package not found']), 404);
+        }
+
+
+        if ($user->credit  < $pack->price) {
+            return response(json_encode(['message' => 'Insufficient credit to purchase']), 400);
+        }
+
+
+
+        if (!$package) {
+            $expiryDate = date('Y-m-d H:i:s');
+
+            $packExpiration = $pack->expiry_time;
+            if($packExpiration == 'FOREVER'){
+                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . ' - 1 day'));
+            }
+            else{
+                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . $packExpiration));
+            }
+
+
+            $package->expired_at = $expiryDate;
+            $package->save();
+        }
+
+        $last_credit = $user->credit;
+        $user->credit = $user->credit - $pack->price;
+        $user->save();
+
+        $data = [
+            'user_id' => $user_id,
+            'order_ref' => $this->generateRandomString('15'),
+            'package_name' => $pack->name,
+            'package_price' => $pack->price,
+            'last_credit' => $last_credit,
+            'after_buy_credit' => $user->credit
+        ];
+
+        OrderHistory::create($data);
+        return json_encode($user);
+    }
     public function tryPackage(Request $request) {
         $user_id = $request->get('user_id');
         $package_id = $request->get('package_id');
