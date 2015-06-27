@@ -191,21 +191,21 @@ class UserPackageController extends Controller {
 
 
 
-        if (!$package) {
-            $expiryDate = date('Y-m-d H:i:s');
 
-            $packExpiration = $pack->expiry_time;
-            if($packExpiration == 'FOREVER'){
-                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . ' - 1 day'));
-            }
-            else{
-                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . $packExpiration));
-            }
+        $expiryDate = date('Y-m-d H:i:s');
 
-
-            $package->expired_at = $expiryDate;
-            $package->save();
+        $packExpiration = $pack->expiry_time;
+        if($packExpiration == 'FOREVER'){
+            $expiryDate = date('Y-m-d H:i:s',strtotime($package->created_at . ' - 1 day'));
         }
+        else{
+            $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . $packExpiration));
+        }
+
+
+        $package->expired_at = $expiryDate;
+        $package->save();
+
 
         $last_credit = $user->credit;
         $user->credit = $user->credit - $pack->price;
