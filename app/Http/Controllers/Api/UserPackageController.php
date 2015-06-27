@@ -121,7 +121,13 @@ class UserPackageController extends Controller {
 
 
         if (!$package) {
-            $package = UserPackage::create(['user_id' => $user_id, 'package_id' => $package_id, 'purchase_type' => 'buy']);
+            $date = date('Y-m-d H:i:s');
+
+            $package = UserPackage::create(['user_id' => $user_id,
+                'package_id' => $package_id,
+                'purchase_type' => 'buy',
+                'expired_at' => $date
+            ]);
         } else {
             if ($package->purchase_type == 'buy') {
                 return response(json_encode(['message' => 'You have purchased this product']), 400);
