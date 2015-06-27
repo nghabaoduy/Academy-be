@@ -125,10 +125,10 @@ class UserPackageController extends Controller {
 
             $packExpiration = $pack->expiry_time;
             if($packExpiration == 'FOREVER'){
-                $expiryDate = date('Y-m-d H:i:s',strtotime('-1 day', $expiryDate));
+                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . ' + 1 day'));
             }
             else{
-                $expiryDate = date('Y-m-d H:i:s',strtotime($packExpiration, $expiryDate));
+                $expiryDate = date('Y-m-d H:i:s',strtotime($expiryDate . $packExpiration));
             }
 
 
