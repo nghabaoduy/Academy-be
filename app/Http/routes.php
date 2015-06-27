@@ -34,6 +34,7 @@ $router->resource('/api/set', 'Api\SetController');
 $router->resource('/api/set.score', 'Api\SetScoreController');
 $router->resource('/api/wordLearned', 'Api\WordLearnedController');
 $router->post('api/purchasePackage', 'Api\UserPackageController@purchasePackage');
+$router->post('api/renewPurchase', 'Api\UserPackageController@renewPurchase');
 $router->post('api/tryPackage', 'Api\UserPackageController@tryPackage');
 $router->post('/api/changeProfileName', 'Api\UserController@changeProfileName');
 $router->post('/api/uploadAvatar', 'Api\UserController@uploadUserAvatar');
