@@ -21,11 +21,15 @@ Route::controllers([
 ]);
 
 $router->resource('/api/sharedData', 'Api\SharedDataController');
+$router->post('/api/updateDataUpdateDate', 'Api\SharedDataController@updateDataUpdateDate');
+
+
 
 $router->resource('/word', 'WordController@create');
 $router->resource('/asset', 'AssetController');
 $router->get('/wordDuplicationCheck', 'WordController@checkForDuplication');
 $router->post('/registerWord', 'WordController@registerWords');
+
 $router->resource('/setWord', 'Api\SetWordController');
 
 $router->resource('/api/package', 'Api\PackageController');

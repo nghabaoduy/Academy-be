@@ -82,5 +82,16 @@ class SharedDataController extends Controller {
 	{
 		//
 	}
+    public function updateDataUpdateDate()
+    {
+        $row = SharedData::where('name', 'latest_data_update_date')->first();
+        if($row)
+        {
+            $date = date('Y-m-d H:i:s');
+            $row->value = $date;
+            $row->save();
+        }
+        return $row;
+    }
 
 }
