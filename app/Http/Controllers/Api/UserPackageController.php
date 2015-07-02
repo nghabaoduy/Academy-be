@@ -18,9 +18,11 @@ class UserPackageController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		//
-
-        $query = UserPackage::where('user_id', $request->get('user_id'))->get();
+        if($request->get('needLoadPackage'))
+            if($request->get('needLoadPackage') == "NO") {
+            $query = UserPackage::where('user_id', $request->get('user_id'))->get();
+        }
+        $query = UserPackage::with('package.sets.asset', 'package.asset')->where('user_id', $request->get('user_id'))->get();
         return response($query);
 	}
 
