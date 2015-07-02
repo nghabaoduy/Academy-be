@@ -282,6 +282,9 @@ class UserPackageController extends Controller {
         if (!$package) {
             return response(json_encode(['message' => 'UserPackage not found']), 404);
         }
+        if ($package->purchase_type == 'try') {
+            return response(json_encode(['message' => 'UserPackage is a try record']), 404);
+        }
 
         if (intval(!$package->score)  >= intval($score)) {
             return response(json_encode(['message' => 'Old score is high or equal']), 404);

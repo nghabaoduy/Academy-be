@@ -26,12 +26,15 @@ $router->resource('/word', 'WordController@create');
 $router->resource('/asset', 'AssetController');
 $router->get('/wordDuplicationCheck', 'WordController@checkForDuplication');
 $router->post('/registerWord', 'WordController@registerWords');
+$router->resource('/setWord', 'Api\SetWordController');
 
 $router->resource('/api/package', 'Api\PackageController');
 $router->resource('/api/user', 'Api\UserController');
 $router->resource('/api/userPackage', 'Api\UserPackageController');
 $router->resource('/api/set', 'Api\SetController');
+$router->resource('/api/setWord', 'Api\SetWordController');
 $router->resource('/api/set.score', 'Api\SetScoreController');
+$router->resource('/api/word', 'Api\WordController');
 $router->resource('/api/wordLearned', 'Api\WordLearnedController');
 $router->post('api/purchasePackage', 'Api\UserPackageController@purchasePackage');
 $router->post('api/renewPurchase', 'Api\UserPackageController@renewPurchase');
