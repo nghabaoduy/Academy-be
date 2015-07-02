@@ -20,13 +20,7 @@ class UserPackageController extends Controller {
 	{
 		//
 
-        $query = UserPackage::with( 'package.sets.asset', 'package.asset');
-
-        if ($request->has('user_id')) {
-            $query = $query->where('user_id', $request->get('user_id'));
-        }
-        $query = $query->get();
-
+        $query = UserPackage::where('user_id', $request->get('user_id'))->get();
         return response($query);
 	}
 

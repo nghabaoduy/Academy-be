@@ -15,16 +15,16 @@ class SetController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		//
-        $query = Set::with('words.meaningList', 'asset');
-
-        if ($request->has('set_id')) {
-            $query = $query->where('id', $request->get('set_id'));
+		if($request->get('set_id')) {
+            $query = Set::with('asset')->where('id', $request->get('set_id'))->get();
+            return response($query);
+        }
+        else
+        {
+            $query = Set::with('asset')->get();
+            return response($query);
         }
 
-        $query = $query->get();
-
-        return response($query);
 	}
 
 	/**
