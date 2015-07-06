@@ -290,5 +290,40 @@ class UserPackageController extends Controller {
         }
         return json_encode($package);
     }
+    function getPackagesTryBuyStatus(Request $request) {
+
+        $userPackageList = UserPackage::all();
+        $packageList = Package::all();
+
+        $returnArray = [];
+        foreach ($packageList as $pack)
+        {
+            if (!$pack) {
+                return response(json_encode(['message' => 'Package not found']), 404);
+            }
+            $tryCount = 0;
+            $buyCount = 0;
+
+            foreach($userPackageList as $userPack)
+            {
+                if($userPack->package_id == $pack->id)
+                {
+                    if($userPack->purchase_type == 'try')
+                        $tryCount++;
+                    if($userPack->purchase_type == 'buy')
+                        $buyCount++;
+                }
+
+            }
+            $status = [
+                "package_id" => $pack->id,
+                "try" => $pack->init_try_count + $tryCount,
+                "buy" => $pack->init_buy_count + $buyCount,
+            ];
+
+            array_push($returnArray, $status);
+        }
+        return $returnArray;
+    }
 
 }

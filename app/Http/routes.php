@@ -22,7 +22,7 @@ Route::controllers([
 
 $router->resource('/api/sharedData', 'Api\SharedDataController');
 $router->post('/api/updateDataUpdateDate', 'Api\SharedDataController@updateDataUpdateDate');
-
+$router->get('/api/getPackagesTryBuyStatus','Api\UserPackageController@getPackagesTryBuyStatus');
 
 
 $router->resource('/word', 'WordController@create');
